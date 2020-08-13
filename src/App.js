@@ -6,12 +6,18 @@ import Table from './components/table/Table';
 import {sortDate} from './utils/utils';
 import LineGraph from './components/lineGraph/LineGraph';
 import './App.css';
+import 'leaflet/dist/leaflet.css';
 
 function App() {
   const [countries,setCount] = useState([]);
   const [country,setCountry] = useState('WordWide');
   const [countryInfo,setCountryInfo] = useState({});
   const [tableData,setTableDate] = useState([]);
+  const [mapCenter,setMapCenter] = useState({
+    lat:34.80746,lng:-40.4796
+  });
+  const [mapCountries,setMapCountries] = useState([]);
+  const [mapZoom,setMapZoom] = useState(3);
   useEffect(()=>{
     fetch("https://disease.sh/v3/covid-19/all")
     .then(response=>response.json())
@@ -33,6 +39,7 @@ function App() {
         const sortedData = sortDate(data);
         setTableDate(sortedData);
         setCount(countriesItens);
+        setMapCountries(data);
       })
     }
     getCountiesData();
@@ -47,9 +54,10 @@ function App() {
     `https://disease.sh/v3/covid-19/countries/${countryCode}`;
     await fetch(url).then(response=>response.json())
     .then(date=>{
-      
         setCountry(countryCode);
         setCountryInfo(date);
+        setMapCenter([date.countryInfo.lat,date.countryInfo.long]);
+        setMapZoom(4);
     })
   }
  
@@ -86,7 +94,11 @@ function App() {
           title='Deaths'
           total={countryInfo.todayDeaths}/>
       </div>
-      <Map/>
+      <Map
+      countries={mapCountries} 
+      center={mapCenter} 
+      zoom={mapZoom}
+      />
      </div>
      <Card className="app__right">
        <CardContent>
