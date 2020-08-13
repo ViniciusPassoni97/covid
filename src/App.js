@@ -47,12 +47,12 @@ function App() {
     `https://disease.sh/v3/covid-19/countries/${countryCode}`;
     await fetch(url).then(response=>response.json())
     .then(date=>{
-      console.log(countryCode);
+      
         setCountry(countryCode);
         setCountryInfo(date);
     })
   }
-  console.log(countryInfo);
+ 
   return (
     <div className="App">
      <div className="app__left">
@@ -75,8 +75,8 @@ function App() {
       <div className="app__stats">
           <InfoBox 
           title='Coranavirus Cases'
-          cases={countryInfo.cases}
-          total={countryInfo.todayCases}/>
+          cases={countryInfo.todayCases}
+          total={countryInfo.cases}/>
           <InfoBox 
           cases={countryInfo.recovered}
           title='Recovered'
