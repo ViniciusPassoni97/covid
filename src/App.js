@@ -91,7 +91,6 @@ function App() {
             cases={prettyPrintStat(countryInfo.todayCases)}
             total={prettyPrintStat(countryInfo.cases)}/>
           <InfoBox 
-            isRed
             active={casesType === 'recovered'}
             onClick={e => setCasesType('recovered')}
             cases={prettyPrintStat(countryInfo.todayRecovered)}
@@ -118,7 +117,7 @@ function App() {
           <Table 
           countries={tableData}/>
           <h2>WorldWide new {casesType}</h2>
-          <LineGraph casesType={casesType}/>
+          <LineGraph className='app__graph' casesType={casesType}/>
        </CardContent>
      </Card>
     </div>
