@@ -45,34 +45,33 @@ const options ={
     ]
   }
 }
-  
-  
+const buildChartData = (data,casesType='cases') =>{
+  const chartData = [];
+  let lastDataPoint;
 
-
-function LineGraph({casesType='cases'}) {
-  const [data,setData]= useState([]);
-  const buildChartData = (data,casesType='cases') =>{
-    const chartData = [];
-    let lastDataPoint;
-
-    for(let date in data.cases) {
-      if(lastDataPoint){
-         const newDataPoint = {
-           x:date,
-           y:data[casesType][date] -lastDataPoint
-         }
-         chartData.push(newDataPoint);
-      }
-      lastDataPoint = data[casesType][date];
+  for(let date in data.cases) {
+    if(lastDataPoint){
+       const newDataPoint = {
+         x:date,
+         y:data[casesType][date] -lastDataPoint
+       }
+       chartData.push(newDataPoint);
     }
-    return chartData;
+    lastDataPoint = data[casesType][date];
   }
+  return chartData;
+};
+
+function LineGraph({casesType}) {
+  const [data,setData] = useState({});
   useEffect(()=>{
     const fetchData = async () => {
       await fetch("https://disease.sh/v3/covid-19/historical/all?lastdays=120")
-      .then((response)=>response.json())
+      .then((response)=>{
+      return response.json();
+      })
       .then((data)=>{
-        const chartData = buildChartData(data,'cases');
+        let chartData = buildChartData(data,casesType);
         setData(chartData);
       })
     }
@@ -81,7 +80,6 @@ function LineGraph({casesType='cases'}) {
 
   return (
     <div>
-      <h1>Im a graph</h1>
       {data?.length > 0 && (
         <Line 
           options={options}
@@ -94,7 +92,7 @@ function LineGraph({casesType='cases'}) {
           }}/>
       )}
     </div>
-  )
-}
+)}
+
 
 export default LineGraph;
