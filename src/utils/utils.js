@@ -32,8 +32,20 @@ export const sortDate = (data) =>{
   })
   return sortDate;
 }
-export const prettyPrintStat = (stat) => 
-  stat ? `+${numeral(stat).format("0.0a")}`:"+0";
+export function prettyPrintStat(stat){
+  console.log(stat);
+  if(stat>999999){
+    return `+${numeral(stat).format("0.0a")}`;
+  }else if(stat>99999){
+    return `+${numeral(stat).format("0a")}`;
+  }else if(stat>999){
+
+  } else if(stat<999 || stat>0){
+    return `+${numeral(stat).format("0a")}`;
+  }
+}
+//export const prettyPrintStat = (stat) => 
+  //stat ? `+${numeral(stat).format("0.0a")}`:"+0";
 export const showDataOnMap = (data,casesType='cases')=>(
   data.map(country => (
     <Circle

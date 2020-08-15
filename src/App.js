@@ -55,7 +55,6 @@ function App() {
     `https://disease.sh/v3/covid-19/countries/${countryCode}`;
     await fetch(url).then(response=>response.json())
     .then(date=>{
-        console.log(countryCode,date,date.countryInfo.lat,date.countryInfo.long);
         setCountry(countryCode);
         setCountryInfo(date);
         setMapCenter([date.countryInfo.lat,date.countryInfo.long]);
